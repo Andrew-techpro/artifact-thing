@@ -39,7 +39,7 @@ app.post('/analyze', upload.single('artifact'), async (req, res) => {
 
         // IMPORTANT: The "model" name in your code was set to 2.5 (doesn't exist yet). 
         // Changed to 1.5-flash for stability.
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
         // Cloudinary provides the image URL in req.file.path
         const imageUrl = req.file.path; 
