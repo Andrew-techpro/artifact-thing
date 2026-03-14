@@ -69,25 +69,5 @@ app.post('/analyze', upload.single('artifact'), async (req, res) => {
     }
 });
 
-// Add this before app.listen
-app.get('/gallery', async (req, res) => {
-    try {
-        const { resources } = await cloudinary.search
-            .expression('folder:artifact-collection') // Ensure this matches your upload folder
-            .with_field('context')
-            .sort_by('created_at', 'desc')
-            .execute();
 
-        const galleryData = resources.map(file => ({
-            title: file.context?.caption || "Unknown Artifact",
-            info: file.context?.description || "No description available",
-            imageUrl: file.secure_url
-        }));
-
-        res.json(galleryData);
-    } catch (error) {
-        console.error("Gallery fetch failed:", error);
-        res.status(500).json({ error: "Could not load gallery" });
-    }
-});
 app.listen(port, () => console.log(`🚀 Server running with Cloudinary at http://localhost:${port}`));
