@@ -34,7 +34,7 @@ app.post('/analyze', upload.single('artifact'), async (req, res) => {
         if (!req.file) return res.status(400).json({ error: 'No file uploaded.' });
         if (!apiKey) return res.status(500).json({ error: 'Server API Key is missing.' });
 
-        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+        const model = genAI.getGenerativeModel({ model: "gemini-3.1-flash-lite-preview" });
 
         const imageUrl = req.file.path; 
 
