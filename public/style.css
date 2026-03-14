@@ -21,7 +21,7 @@ body {
 .hidden { display: none !important; }
 
 h1 { 
-    font-size: 56px; /* Fixed size */
+    font-size: 56px; 
     font-weight: 800;
     margin-bottom: 30px;
     background: linear-gradient(90deg, #fff, #777, #fff); 
@@ -42,7 +42,6 @@ h1 {
     margin: 0 auto;
 }
 
-/* FIXED BUTTON SIZING */
 button, .clickable-label { 
     padding: 16px 32px; 
     border-radius: 12px; 
@@ -52,7 +51,7 @@ button, .clickable-label {
     text-transform: uppercase; 
     transition: 0.3s; 
     font-family: 'Inter Tight', sans-serif;
-    font-size: 14px; /* Locked size to prevent shrinking */
+    font-size: 14px; 
     display: inline-block;
 }
 
