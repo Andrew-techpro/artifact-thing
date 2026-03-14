@@ -18,7 +18,7 @@
                 
                 <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
                     <button class="btn-primary" onclick="analyzeArtifact()">ANALYZE ARTIFACT</button>
-                    <button class="btn-secondary" onclick="showCollection()">COLLECTION</button>
+                    <button class="btn-secondary" onclick="showCollection()">ARCHIVE</button>
                 </div>
             </div>
         </div>
@@ -33,7 +33,7 @@
                     <h2 id="resTitle" style="margin: 0 0 15px 0; font-size: 28px;"></h2>
                     <p id="resInfo" class="info-text"></p>
                     <div style="margin-top: 30px; display: flex; gap: 15px;">
-                        <button class="btn-save" onclick="saveToCollection()">SAVE TO COLLECTION</button>
+                        <button class="btn-save" onclick="saveToCollection()">SAVE TO ARCHIVE</button>
                         <button class="btn-discard" onclick="goBack()">DISCARD</button>
                     </div>
                 </div>
@@ -41,7 +41,7 @@
         </div>
 
         <div id="collection-page" class="hidden">
-            <h1>Your Collection</h1>
+            <h1>Discover Archive</h1>
             <div id="collection-grid"></div>
         </div>
 
