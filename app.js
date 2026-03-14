@@ -69,11 +69,13 @@ app.post('/analyze', upload.single('artifact'), async (req, res) => {
     }
 });
 
+// Add this before app.listen
 app.get('/gallery', async (req, res) => {
     try {
         const { resources } = await cloudinary.search
-            .expression('folder:artifact-collection')
+            .expression('folder:artifact-collection') // Ensure this matches your upload folder
             .with_field('context')
+            .sort_by('created_at', 'desc')
             .execute();
 
         const galleryData = resources.map(file => ({
@@ -88,5 +90,4 @@ app.get('/gallery', async (req, res) => {
         res.status(500).json({ error: "Could not load gallery" });
     }
 });
-
 app.listen(port, () => console.log(`🚀 Server running with Cloudinary at http://localhost:${port}`));
