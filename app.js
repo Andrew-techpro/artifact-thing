@@ -2,14 +2,14 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const { GoogleGenAI } = require("@google/genai");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Use Environment Variable for Security
+// Initialize Gemini with the API Key from your environment variables
 const apiKey = process.env.GEMINI_API_KEY;
-const genAI = new GoogleGenAI(apiKey);
+const genAI = new GoogleGenerativeAI(apiKey);
 
 // Ensure uploads folder exists
 const uploadDir = './uploads/';
@@ -18,7 +18,9 @@ if (!fs.existsSync(uploadDir)) {
 }
 
 const storage = multer.diskStorage({
-    destination: uploadDir,
+    destination: (req, file, cb) => {
+        cb(null, uploadDir);
+    },
     filename: (req, file, cb) => {
         cb(null, 'art-' + Date.now() + path.extname(file.originalname));
     }
@@ -31,21 +33,25 @@ app.use(express.json());
 
 app.post('/analyze', upload.single('artifact'), async (req, res) => {
     try {
-        if (!req.file) return res.status(400).json({ error: 'No file.' });
-        if (!apiKey) return res.status(500).json({ error: 'API Key missing on server.' });
+        if (!req.file) return res.status(400).json({ error: 'No file uploaded.' });
+        if (!apiKey) return res.status(500).json({ error: 'Server API Key is missing.' });
 
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        // Use gemini-1.5-flash for fast image analysis
+        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
         const imageData = fs.readFileSync(req.file.path).toString("base64");
 
-        const prompt = "Act as an expert museum curator and historian. Identify this artifact's specific academic or museum title. Format exactly as: Title: [Academic Name] | Info: [4-5 sentence historical context]";
+        const prompt = "Act as an expert museum curator. Identify this artifact's specific academic title. Format exactly as: Title: [Name] | Info: [4-5 sentences of context]";
 
         const result = await model.generateContent([
             prompt,
             { inlineData: { data: imageData, mimeType: req.file.mimetype } }
         ]);
 
-        const text = result.response.text();
-        let title = "Unidentified Artifact", info = text;
+        const response = await result.response;
+        const text = response.text();
+        
+        let title = "Unidentified Artifact";
+        let info = text;
 
         if (text.includes('|')) {
             const parts = text.split('|');
@@ -55,9 +61,9 @@ app.post('/analyze', upload.single('artifact'), async (req, res) => {
 
         res.json({ title, info, imageUrl: `/uploads/${req.file.filename}` });
     } catch (error) {
-        console.error(error);
+        console.error("Analysis Error:", error);
         res.status(500).json({ error: error.message });
     }
 });
 
-app.listen(port, () => console.log(`🚀 Server: http://localhost:${port}`));
+app.listen(port, () => console.log(`🚀 Server running at http://localhost:${port}`));

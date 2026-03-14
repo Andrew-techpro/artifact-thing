@@ -7,45 +7,52 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="upload-page" class="container">
-        <h1>Artifact AI</h1>
-        <div class="main-interface-box">
-            <input type="file" id="artifactInput" style="display:none" onchange="updateFileName()">
-            <label for="artifactInput" class="btn-secondary clickable-label">Select Artifact</label>
-            <p id="file-chosen" style="margin-top:20px; color:#555;">No file selected</p>
-            <div style="margin-top:40px;">
-                <button class="btn-primary" onclick="analyzeArtifact()">Analyze Artifact</button>
-                <button class="btn-secondary" onclick="showCollection()" style="margin-left:10px;">Collection</button>
-            </div>
-        </div>
-    </div>
 
-    <div id="result-page" class="container hidden">
-        <h2 id="resTitle" style="font-size: 2.5rem; margin-bottom: 20px;"></h2>
-        <div class="result-layout">
-            <img id="resImg" class="result-image" src="">
-            <div class="info-content">
-                <p id="resInfo" class="info-text"></p>
-                <div style="margin-top: 40px;">
-                    <button class="btn-save" onclick="saveToCollection()">Save to Collection</button>
-                    <button class="btn-discard" onclick="goBack()">Discard</button>
+    <div class="container">
+        <div id="upload-page">
+            <h1>Artifact AI</h1>
+            <div class="main-interface-box">
+                <input type="file" id="artifactInput" style="display: none;" onchange="updateFileName()" accept="image/*">
+                <label for="artifactInput" class="clickable-label btn-secondary">SELECT ARTIFACT</label>
+                <p id="file-chosen" style="margin: 15px 0; color: #555; font-size: 14px;">No file selected</p>
+                
+                <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+                    <button class="btn-primary" onclick="analyzeArtifact()">ANALYZE ARTIFACT</button>
+                    <button class="btn-secondary" onclick="showCollection()">COLLECTION</button>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div id="collection-page" class="container hidden">
-        <h1>Your Collection</h1>
-        <div id="collection-grid"></div>
-        <button class="btn-secondary" onclick="goBack()">Back to Scanner</button>
-    </div>
+        <div id="result-page" class="hidden">
+            <h1>Analysis Result</h1>
+            <div class="result-layout">
+                <div>
+                    <img id="resImg" class="result-image" src="" alt="Artifact">
+                </div>
+                <div>
+                    <h2 id="resTitle" style="margin: 0 0 15px 0; font-size: 28px;"></h2>
+                    <p id="resInfo" class="info-text"></p>
+                    <div style="margin-top: 30px; display: flex; gap: 15px;">
+                        <button class="btn-save" onclick="saveToCollection()">SAVE TO COLLECTION</button>
+                        <button class="btn-discard" onclick="goBack()">DISCARD</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <div id="detail-overlay" class="hidden" onclick="closeDetail()" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:1000; display:flex; align-items:center; justify-content:center;">
-        <div style="max-width:800px; padding:40px; text-align:center;" onclick="event.stopPropagation()">
-            <h2 id="detailTitle"></h2>
-            <img id="detailImage" style="max-height:50vh; border-radius:15px; margin:20px 0; border:1px solid #333;">
-            <p id="detailInfo" style="text-align:left; color:#ccc; line-height:1.6;"></p>
-            <button class="btn-secondary" onclick="closeDetail()" style="margin-top:20px;">Close</button>
+        <div id="collection-page" class="hidden">
+            <h1>Your Collection</h1>
+            <div id="collection-grid"></div>
+        </div>
+
+        <div id="detail-overlay" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 1000;">
+            <div class="result-layout" style="max-width: 850px; width: 90%;">
+                <img id="detailImage" class="result-image" src="">
+                <div id="detail-text-container">
+                    <h2 id="detailTitle" style="margin: 0 0 15px 0; font-size: 28px;"></h2>
+                    <p id="detailInfo" class="info-text"></p>
+                </div>
+            </div>
         </div>
     </div>
 
